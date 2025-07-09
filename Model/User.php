@@ -20,15 +20,24 @@ class User {
     public function registerUser($user_fullname,$email,$password) {
         try{
 
-            $sql = 'INSERT INTO user, (user_fullname, email, password, created_at) VALUES(:user_fullname, :email, :password, NOW())';
+            $sql = 'INSERT INTO user (user_fullname, email, password, created_at) VALUES(:user_fullname, :email, :password, NOW())';
+
+            $hashedPassoword = password_hash($password, PASSWORD_DEFAULT);
 
 
-            $stwt = $this->db->prepare($sql);
+            $stmt = $this->db->prepare($sql);
 
-            $stwt->bindParam(":user_fullname", $user_fullname, PDO::PARAM_STR);
+            $stmt->bindParam(":user_fullname", $user_fullname, PDO::PARAM_STR);
+            $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+            $stmt->bindParam(":password",$hashedPassoword, PDO::PARAM_STR);
+
+            $stmt->execute();
 
 
-        } catch(PDOException $error) {}
+        } catch(PDOException $error) {
+            echo"Erro ao executar o comando".$error->getMessage();
+            return false;
+        } 
     }
 }
 
