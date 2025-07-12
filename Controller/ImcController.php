@@ -2,7 +2,6 @@
 
 namespace Controller;
 use Exception;
-use LDAP\Result;
 use Model\Imcs;
 class ImcController
 {
@@ -13,7 +12,7 @@ class ImcController
         $this->imcsModel = new Imcs();
     }
 
-    public function calculateImc()
+    public function calculateImc($weight, $height)
     {
         try {
             $result = [];
@@ -24,7 +23,7 @@ class ImcController
                     switch (true) {
 
                     }
-                    $result["BMirange"] = match (true) {
+                    $result["BMIrange"] = match (true) {
                         $imc < 18.5 => "Baixo Peso",
                         $imc >= 18.5 and $imc < 25 => "Peso normal",
                         $imc >= 25 and $imc < 30 => "Sobrepeso",

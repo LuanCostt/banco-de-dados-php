@@ -1,7 +1,13 @@
 <?php
 require_once('../vendor/autoload.php');
-use Model\Imcs;
-$imc = new Imcs();
+
+use Controller\ImcController;
+
+$imcController = new ImcController();
+
+$imcResult = null;
+
+//var_dump($imcController->calculateImc($weight,$height));
 
 if($_SERVER['REQUEST_METHOD'] ==="POST"){
     if(isset($_POST['weight'], $_POST['height'])){
@@ -9,7 +15,11 @@ if($_SERVER['REQUEST_METHOD'] ==="POST"){
         $height = $_POST['height'];
         // $result = round($weight / ($height * $height),2);
         
-        $imc->createImc($weight,$height,$result);
+        $imcResult=$imcController->calculateImc($weight,$height);
+
+        if($imcResult['BMIrange'] != "Por favor, informe peso e altura para obter o seu IMC."){
+            $imcController->saveImc($weight,$height,$imcResult["imc"]);
+        }
     }
 }
 ?>
@@ -87,6 +97,7 @@ if($_SERVER['REQUEST_METHOD'] ==="POST"){
         </div>
 
         <div class="calc__IMC d-flex flex-md-row gap-4 justify-content-center flex-column align-items-center w-100">
+
             <div class="calc__data rounded-3 w-100">
                 <div class="calc__data__header d-flex gap-2 align-items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="blue" class="bi bi-calculator"
@@ -124,6 +135,13 @@ if($_SERVER['REQUEST_METHOD'] ==="POST"){
                 <div class="result">
                     <div class="result__info">
                         <!-- RESULTADO DO IMC -->
+                         <?php if ($imcResult): ?>
+                            <p>Seu IMC é: <?php echo $imcResult['imc']??'';?></p>
+                            <p>Categoria <?php echo $imcResult['BMIrange'];?></p>
+                         <?php else: ?>
+                            <i class="bi bi-calculator"></i>
+                            <p>Preencha os dados ao lado para ver o Resultado</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
