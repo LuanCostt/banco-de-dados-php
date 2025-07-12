@@ -7,7 +7,7 @@ if($_SERVER['REQUEST_METHOD'] ==="POST"){
     if(isset($_POST['weight'], $_POST['height'])){
         $weight = $_POST['weight'];
         $height = $_POST['height'];
-        $result = round($weight / ($height * $height),2);
+        // $result = round($weight / ($height * $height),2);
         
         $imc->createImc($weight,$height,$result);
     }
@@ -100,7 +100,7 @@ if($_SERVER['REQUEST_METHOD'] ==="POST"){
                 </div>
 
                 <form method="POST" action="home.php">
-                    <label for="userWeight">Peso (kg)</label>
+                    <label for="userWeight">Peso eu sou gay (kg)</label>
                     <div class="input-group mb-3">
                         <i class="input-group-text bi bi-duffle" id="weightIcon"></i>
                         <input type="number" name="weight" class="form-control" placeholder="Ex: 70.5" id="userWeight"
